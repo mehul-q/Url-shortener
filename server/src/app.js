@@ -8,7 +8,20 @@ const { checkRateLimit } = require('./services/cache');
 
 const app = express();
 app.set('trust proxy', 1);
-app.use(cors({ origin: process.env.CLIENT_URL }));
+
+app.use(cors({
+  origin: (origin, callback) => {
+    const allowed = [
+      process.env.CLIENT_URL,
+    ];
+    if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 app.use(morgan('dev'));
 
