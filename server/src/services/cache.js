@@ -1,7 +1,13 @@
 const Redis = require('ioredis');
 require('dotenv').config();
 
-const client = new Redis(process.env.REDIS_URL);
+const client = new Redis(process.env.REDIS_URL, {
+  tls: { rejectUnauthorized: false },
+  maxRetriesPerRequest: 3,
+  enableReadyCheck: false,
+  lazyConnect: true,
+});
+
 client.on('error', err => console.error('Redis error:', err));
 
 const TTL = 3600;
