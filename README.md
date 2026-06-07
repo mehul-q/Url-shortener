@@ -11,7 +11,7 @@ A clean, fast, full stack URL shortener built with React, Node.js, PostgreSQL an
 
 ## Live Demo
 
-> [https://your-app.vercel.app](https://your-app.vercel.app) ← replace with your Vercel URL after deployment
+> [https://url-shortener-flame-phi.vercel.app/]
 
 ---
 
