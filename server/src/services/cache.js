@@ -1,16 +1,15 @@
-const { createClient } = require('redis');
+const Redis = require('ioredis');
 require('dotenv').config();
 
-const client = createClient({ url: process.env.REDIS_URL });
+const client = new Redis(process.env.REDIS_URL);
 client.on('error', err => console.error('Redis error:', err));
-client.connect();
 
 const TTL = 3600;
 
 module.exports = {
   get: (code) => client.get(`url:${code}`),
 
-  set: (code, url) => client.setEx(`url:${code}`, TTL, url),
+  set: (code, url) => client.set(`url:${code}`, url, 'EX', TTL),
 
   del: (code) => client.del(`url:${code}`),
 
