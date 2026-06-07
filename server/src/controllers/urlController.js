@@ -25,7 +25,8 @@ exports.shorten = async (req, res) => {
       [originalUrl, customAlias || null, expiresAt]
     );
 
-    const shortCode = customAlias || encode(rows[0].id);
+    // Add offset of 1000000 so codes are always 4+ characters
+    const shortCode = customAlias || encode(rows[0].id + 1000000);
     await db.query('UPDATE urls SET short_code = $1 WHERE id = $2', [shortCode, rows[0].id]);
     await cache.set(shortCode, originalUrl);
 
@@ -39,7 +40,8 @@ exports.shorten = async (req, res) => {
 exports.redirect = async (req, res) => {
   const { code } = req.params;
 
-  if (!/^[a-zA-Z0-9]{4,10}$/.test(code)) {
+  // Allow 1-20 alphanumeric characters
+  if (!/^[a-zA-Z0-9-]{1,20}$/.test(code)) {
     return res.status(404).json({ error: 'Not found' });
   }
 
