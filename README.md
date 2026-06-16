@@ -14,6 +14,8 @@ A clean, fast, full stack URL shortener built with React, Node.js, PostgreSQL an
 > [https://url-shortener-flame-phi.vercel.app/]
 
 ---
+## How it looks
+![not found](image.png)
 
 ## Features
 
